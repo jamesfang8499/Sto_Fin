@@ -1,0 +1,15 @@
+\documentclass{ctexart}
+\usepackage{pstricks}
+\begin{document}
+
+\begin{center}\psset{arrowsize=4pt}
+\begin{pspicture}(0,1)(10,-.5)
+\psline{->}(0,0)(10,0)
+\psline(0,.1)(0,-.1)\psline(2,.1)(2,-.1)
+\psline(5,.1)(5,-.1)\psline(7,.1)(7,-.1)
+\rput(0,-.5){$X_0=y$}\rput(2,-.5){$X_k=z$}
+\rput(5,-.5){$X_T=y$}\rput(7,-.5){$X_{T+k}=z$}
+\pscurve{->}(0,0)(1,.5)(2,0)\pscurve{->}(5,0)(6,.5)(7,0)
+\end{pspicture}
+\end{center}
+\end{document}

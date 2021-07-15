@@ -1,0 +1,911 @@
+\documentclass[t]{beamer}
+
+%\documentclass[handout, t]{beamer}
+\setbeamertemplate{navigation symbols}{}
+\usepackage{pstricks}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{physics}
+\setbeamertemplate{navigation symbols}{}
+\usepackage{bm}
+\usepackage[UTF8]{ctex}
+\usetheme{AnnArbor}
+\usefonttheme{serif}
+\useinnertheme{rounded}
+\usecolortheme{dolphin}
+\setbeamertemplate{blocks}[rounded][shadow=true]
+
+\newcommand{\dif}{{\;\rm d}}
+\usepackage{graphicx}
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows, decorations.pathmorphing, backgrounds, positioning, fit, petri, automata}
+\tikzset{>=stealth}
+
+\usepackage{setspace}
+\setmainfont{Times New Roman}
+\setCJKmainfont{Microsoft YaHei}
+
+
+\hypersetup{pdfpagemode=FullScreen}
+\renewcommand{\Pr}{\mathbb{P}}
+\usepackage{blkarray}
+
+
+\setbeamercolor{block title}{bg=red!10!white}
+\setbeamercolor{block body}{bg=gray!10!white}
+
+\usepackage{multicol}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\EP}{\mathbb{E}^{\mathbb{P}}}
+\newcommand{\EQ}{\mathbb{E}^{\mathbb{Q}}}
+\newcommand{\Var}{{\rm Var}}
+\newcommand{\Cov}{{\rm Cov}}
+
+
+\begin{document}
+\fontsize{11}{18}\selectfont
+
+
+\CTEXindent
+
+\title{第十章~~金融市场及其数学基础}
+\author{随机过程及其在金融中的应用}
+\date{中国人民大学出版社}
+\begin{frame}
+	\maketitle
+\end{frame}
+
+
+
+\begin{frame}{本章内容}
+	\begin{multicols*}{2}	
+		\tableofcontents
+	\end{multicols*}
+
+
+\end{frame}
+
+
+\section{金融市场的相关概念}
+
+\begin{frame}{金融市场的相关概念}
+	金融市场是一个便于进行金融产品交易的场所，该市场的参与者包含买方和卖方。
+	
+	金融产品，也称作金融工具（financial instrument），是金融市场相关交易的载体。
+根据金融产品的市场属性，可将它们分为基础金融产品和金融衍生产品两大类。
+
+\begin{itemize}
+	\item 基础金融产品是在实际金融交易中出具的能证明债权债务关系或所有权关系的合法凭证，主要有商业票据、债券等债权债务凭证和股票、基金等所有权凭证。
+	\item 金融衍生产品（financial derivatives）又称金融衍生工具，是建立在基础金融产品之上，价格变动取决于基础金融产品的派生品，主要包括金融期货、金融远期、金融期权、金融互换等类别。
+\end{itemize}
+\end{frame}
+
+\begin{frame}{基础金融产品}
+	\begin{itemize}
+		\item 股票（stock）是有价证券的主要形式，是股份有限公司签发的用于证明股东按其所持股份享有权利和承担义务的凭证。
+		\item 债券是发行人（也称债务人或借款人）按照法定程序发行的、在未来按约定的时间和方式向其购买方（也称债权人或投资者）支付利息和偿还本金的一种债务凭证。
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{金融衍生产品}
+	\begin{itemize}
+		\item 金融期货指交易双方在期货交易所以公开竞价的方式成交，承诺在未来某一日期或某一段时间内，以事先约定的价格交割某种特定的{\color{red}标准数量的金融工具}的契约。
+		\item 金融远期是指由交易双方约定于未来某日期以成交时所确定的价格，交割一定数量的某种金融商品的协议或合约。
+		\item 期权（option）又称选择权，是一种能在未来某日期或该日期之前，以事先确定的价格买进或卖出一定数量的某种商品的{\color{red}权利}。
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{期权}
+	期权交易实际上是一种权利的交易，而期权费就是这一权利的价格。
+	\begin{itemize}
+		\item 
+	期权费（premium），又称为权利金或保险费，是指期权购买者为获得期权合约所赋予的权利，而向期权出售者支付的费用。一经支付，则不管期权购买者是否执行该期权，期权费均不予退还。
+	\item 
+	期权购买者（buyer），也称为期权持有者（holder），是指支付期权费以获得期权合约所赋予的权利的一方。
+	\item 
+	期权的出售者（seller），也称期权签发者（writer），是指收取期权费而履行期权合约所规定的义务的一方。
+	\item 在期权交易中，期权购买者在向期权出售者支付一定的期权费后，就获得了期权合约所赋予的权利。
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{期权(cont.)}
+	\begin{itemize}
+		\item 
+	期权交易所针对的交易对象也称作标的物或标的资产（underlying asset）。
+	\item 行权价（strike price, exercise price），也称履约价格或执行价格，是指期权合约所规定的、期权购买者在执行期权时买进或卖出标的资产的价格。在期权合约的有效期内，无论期权合约标的资产价格涨到什么水平或跌到什么水平，只要期权购买者要求执行期权，期权出售者都必须以此价格履行其承担的义务。
+\end{itemize}
+
+\end{frame}
+
+
+\subsection{期权的分类}
+\begin{frame}{看涨期权与看跌期权}
+	根据期权合约赋予期权购买者的不同权利，期权可分为看涨期权与看跌期权。
+
+看涨期权（call option）是指期权购买者可在约定的未来某日期或该日期之前，以行权价向期权出售者买进一定数量的某种标的资产的权利。
+
+看跌期权（put option）则是指期权购买者可在约定的未来某日期或该日期之前，以行权价向期权出售者卖出一定数量的某种标的资产的权利。
+
+\begin{block}{注意：}
+	所谓的“看涨”与“看跌”，都是就期权购买者而言的。
+\end{block}
+\end{frame}
+
+
+
+\begin{frame}{欧式期权与美式期权}
+	在期权交易中，根据期权合约对履约时间的不同规定，期权可分为欧式期权与美式期权两种类型。
+
+欧式期权（European option），是指期权购买者只能在期权到期日履约的期权。
+
+美式期权（American option），则是指期权购买者既可在期权到期日履约，又可在期权到期日之前的任一营业日履约的期权。
+
+\begin{block}{注意：}
+	对期权购买者而言，美式期权比欧式期权有着更大的选择余地；对于期权出售者而言，美式期权的风险比欧式期权更大。
+\end{block}
+\end{frame}
+
+
+\begin{frame}{场内期权与场外期权}
+	根据交易场所是否集中，以及期权合约是否标准化，期权可分为场内期权与场外期权这两种不同的类型。
+
+场内期权（exchange-traded option）也称为交易所交易期权或交易所上市期权，是指在集中性的期权市场所交易的标准化的期权合约。
+
+场外期权（over-the-counter option，OTC option）也称为店头市场期权或柜台式期权，是指在非集中性的交易场所交易的非标准化的期权合约。
+
+\begin{block}{注意：}
+	场内期权与场外期权最主要的区别是期权合约是否标准化。
+\end{block}
+\end{frame}
+
+
+\begin{frame}{障碍期权}\small
+	\begin{spacing}{1.3}
+		由于场外期权的灵活性，金融市场中有一类具有特殊交易规则和特殊合约条款的期权，人们通常称之为奇异期权或新型期权（exotic option）。奇异期权中最具有代表性的品种是障碍期权。
+        
+障碍期权（barrier option）是指在期权的期限内，当标的资产价格达到某一水平时，既可以被启动也可以被取消的期权。在障碍期权中，除了行权价，还增设了一个障碍价格。
+
+障碍期权一般分为两类，即敲出期权（knock-out option）和敲入期权（knock-in option）。敲出期权是指当标的资产价格达到一个特定障碍水平时，该期权作废；敲入期权是指只有在标的资产价格达到一个特定障碍水平时，该期权才有效。障碍期权的收益依赖于标的资产价格在一段特定时间内是否达到一个特定障碍水平。与标准期权不同的是，在期权有效期内，当标的资产价格达到某一水平时，期权就生效或失效。
+	\end{spacing}
+	
+\end{frame}
+
+\subsection{货币的时间价值}
+\begin{frame}{货币的时间价值}
+	货币的时间价值（time value of money, TVM），是指当前的1元钱比未来某时刻得到的1元钱的价值要大。原因在于：可以将当前的1元钱进行投资，到未来某时刻得到的本金和利息之和会大于初始状态的1元钱；另外，通货膨胀会造成当前的1元钱的购买力大于未来的1元钱。
+	
+	正因为如此，在相关的金融研究中，不能把不同时期的现金数额进行直接加总，因为各期现金的比较没有基准，这样的加总是毫无意义的。
+	
+	为了解决这个问题，需要通过求现值或终值的方式，使得不同期的现金数额在经过相关的调整和转换后，可以在一个基准上进行计算和比较。
+\end{frame}
+
+
+
+\begin{frame}{终值的含义}
+	将当前时刻的现金价值换算成未来时刻的价值，这个过程称作求终值（future value, FV）。
+	
+	假设当前有1000元，将这笔钱存入银行，年利率为5\%，如果存款时间为1年，则1年后可得到的本利和为：
+\[{\rm FV}=1000\times (1+5\%)=1050\text{(元)} \]
+可以称当前的1000元在1年后的终值等于1050元。
+\end{frame}
+
+
+
+\begin{frame}{终值(cont.)}
+	如果使用单利（simple interest）计息方式，则2年后可得到的本利和为：
+	 \[{\rm FV}=1000\times (1+5\%\times 2)=1100\text{(元)}  \]
+也就是说，一年后的本金和利息中，原始本金用于第二年利息的计算。
+
+如果一年后的本利和作为第二年利息计算的依据，则称这种计算方式为复利（compound interest）计息。如果采用复利计息，则第2年末本利和为：
+	 \[{\rm FV}=1000\times (1+5\%)^2=1102.5\text{(元)}  \]
+依此类推，复利计息方式下，$n$年后的本利和等于$1000\times (1+5\%)^n$。
+
+\begin{block}{注意：}
+	在相关的金融研究中，往往采用复利计息方式。
+\end{block}
+\end{frame}
+
+
+\begin{frame}{连续复利}
+	如果调整计息的频度，假设一年计息两次，则复利计息方式下1年后的本利和为：
+\[{\rm FV}=1000\times \left( 1+\frac{5\%}{2}\right)^{1\times 2}=1050.63\text{(元)}   \]
+类似地，如果一年计息$n$次，则复利条件下$m$年后的本利和为：
+\[{\rm FV}=1000\times \left( 1+\frac{5\%}{n}\right)^{m\times n}  \]
+
+在极端情况下，若复利计息每时每刻都在进行，则这种计息方式称作连续复利（continuous compound）。此时假设期初本金数额为$A$，年利率为$r$，时间长度为$t$年，则有：
+\begin{equation*}
+{\rm FV}=\lim_{n\to \infty}A\left(1+\frac{r}{n}\right)^{n\cdot t}=A\lim_{n\to \infty}\left[\left(1+\frac{r}{n}\right)^{n/r}\right]^{rt}=A{\rm e}^{rt}
+\end{equation*}
+
+\end{frame}
+
+\begin{frame}{现值的含义}
+	将未来时刻的现金价值换算成当前时刻的价值，这个过程称作求现值（present value, PV）。
+
+	假设未来一年后可以得到1000元，投资的年收益率为5\%，则当前应当投入的资金数额应当为：
+	 \[{\rm PV}=\frac{1000}{1+5\%}=952.38\text{(元)} \]
+这里的952.38元就是1年后1000元的现值，现值的计算称作贴现或折现（discount）；相应的利率5\%称作贴现率或折现率（discount rate）。
+\end{frame}
+
+\begin{frame}{现值(cont.)}
+对于未来第$n$期的资金数额$A$，假设每期的贴现率是$r$，则其现值就是：
+\[{\rm PV}=\frac{A}{(1+r)^n} \]
+求现值可看作求终值的逆运算。因此，在连续复利条件下，现值的计算公式如下：
+\begin{equation*}
+{\rm PV}=A{\rm e}^{-rt}
+\end{equation*}
+其中，未来的资金数额为$A$，年贴现率为$r$，时间长度为$t$年。
+\end{frame}
+
+
+
+\section{无套利原理}
+
+\subsection{金融市场上的价格}
+\begin{frame}{金融产品的交易价格}\normalsize
+\begin{itemize}
+\item 金融市场上金融产品潜在的买方会报出其希望的购买价格，称作买价(bid price)；
+\item 潜在的卖方则会报出其希望的卖出价格，称作卖价(ask price)。
+\item 如果市场上的买卖双方买价和卖价刚好相等，则相应的金融产品就会发生买卖交易，这个价格就是该金融产品的交易价格。
+\end{itemize}
+
+\begin{block}{假设}
+假设金融市场中资产价格演化的时间是{\color{red}离散}的，即资产价格的交易时间是离散的时刻$0,1,2,\ldots,N$，同时我们假设时间是有限的，并且资产的价格也只能取有限个可能的值。
+\end{block}
+\end{frame}
+
+\begin{frame}{离散时间下的金融市场}
+\begin{itemize}
+\item 假设有$M$个不同的证券，分别记作证券$1,2,\ldots,M$。记$S_i(n)$表示证券$i$在$n$时刻的价格，其中$i=1,2,\ldots,M$，$n=0,1,2,\ldots,N$。
+\item 假设证券1是银行账户(bank account)，并且该证券按年获得数额为$r$的无风险利率(risk-free interest rate)，该利率假设为常数。我们将0时刻银行账户的单位价值记为$S_1(0)$；$n$时刻的价值记为$S_1(n)$，两者的关系如下：
+\[S_1(0)=1 ,\qquad S_1(n)=(1+r)^n \]
+\item 除了证券1以外，其余的$(M-1)$个证券均是有风险的资产，比如：股票、期权等，它们的价格变动是随机的，因此在当前时刻，我们无法预知其未来任意时刻的价格。
+\end{itemize}
+\end{frame}
+
+\begin{frame}{价格向量}
+$n$时刻该组合中各资产价格所组成的$M$维列向量${\bf S}(n)$如下：
+\begin{equation*}
+{\bf S}(n)=\begin{bmatrix}
+S_1(n)& S_2(n)&\cdots& S_M(n)
+\end{bmatrix}' _{1\times M}
+\end{equation*}
+
+\begin{itemize}
+\item 假定所有证券可以无限细分，即可以交易任意数量的证券；市场可以进行卖空交易，即持有的证券头寸可以为负；市场不存在佣金(commission)等交易成本。
+并且由于银行账户的存在，投资者可以在市场上以无风险利率$r$进行自由的借贷。
+\item
+ 所有的证券在整个期限的中间任意时刻均不发生分红或利息的收付。因此在该假设下，只有在资产出售或到期时，才会有资金的流入或流出。
+\end{itemize}
+\end{frame}
+
+\subsection{套利的相关概念}
+\begin{frame}{交易策略}
+交易策略(trading strategy)是指金融市场的参与者，基于事先确定的规则，对市场上的证券进行买卖操作的方法。交易策略指定了各时刻持有的每个资产的数量及方向。
+
+比如：某个投资者在开始时同时购买了若干单位的A证券和B证券，然后在未来A证券价格上涨10元的时刻，{\color{red}将A证券卖出并买入B证券}。在此过程中，投资者基于市场上证券A的价格行情，对A证券和B证券分别进行了卖出和买入操作就是交易策略。
+
+如果投资者在A证券价格上涨10元的时刻，{\color{blue}将B证券卖出并买入A证券}，这样的操作方式与之前的交易策略买卖方向刚好相反，称作反向策略(reverse strategy)。
+\end{frame}
+
+
+\begin{frame}{交易策略(cont.)}
+资产组合包含了一个无风险资产，$(M-1)$个风险资产，假设该组合当中各资产相应的份额（holding position）分别为$h_1, h_2,\ldots, h_M$，
+由此得到的$n$时刻资产份额的$M$维列向量${\bf h}(n)$如下：
+\begin{equation*}
+{\bf h}(n)=\begin{bmatrix}
+h_1(n)& h_2(n)&\cdots& h_M(n)
+\end{bmatrix}' _{1\times M}
+\end{equation*}
+其中：$h_1(n)$就是无风险资产在$n$时刻的份额数。此处的${\bf h}(n)$就是交易策略。
+\end{frame}
+
+\begin{frame}{资产组合的价值}
+$n$时刻资产组合的价值$V(n)$，表达式如下：
+\begin{equation*}
+V(n)=\sum^{M}_{i=1} h_i(n)S_i(n)={\bf h}(n)\cdot {\bf S}(n)
+\end{equation*}
+即$V(n)$是一个标量值(scalar)，通过对资产份额向量 ${\bf h}(n)$ 和资产价格向量 ${\bf S}(n)$ 进行内积(inner product)运算得到。
+\end{frame}
+
+\begin{frame}{自融资策略}
+如果对于所有$n\in\{1,2,\ldots,N\}$，下式均成立：
+\begin{equation*}
+{\bf h}(n-1)\cdot {\bf S}(n)={\bf h}(n)\cdot {\bf S}(n)
+\end{equation*}
+则称交易策略${\bf h}$是自融资策略(self-financing strategy)。
+
+\begin{block}{含义}
+投资者为了增加在组合中某种证券的持有份额，就必须通过出售该组合中的另一部分其他证券的方式来实现，并且交易过程中没有多余资金的流入和流出。因此自融资策略在{\color{red}交易策略调整的前后时刻}，资产组合价值保持不变。
+\end{block}
+\end{frame}
+
+\begin{frame}{自融资策略(cont.)}
+\begin{equation*}
+{\bf h}(n-1)\cdot {\bf S}(n)={\bf h}(n)\cdot {\bf S}(n)
+\end{equation*}
+
+如果${\bf h}$是一个不随时间而发生改变的常数向量，则${\bf h}$必然是自融资策略，因为此时投资者持有资产组合并不做任何调整，也就是通常所说的买入并持有策略(buy-and-hold strategy)。
+\end{frame}
+
+\begin{frame}{套利的概念}
+若在一个自融资策略下，期初资产组合的价值$V(0)$和期末资产组合的价值$V(N)$满足：
+\[V(0)=0,\qquad V(N)\ge 0,\qquad \Pr[V(N)>0]>0 \]
+则称金融市场存在套利机会(arbitrage opportunity)。
+
+\begin{block}{含义}
+	\begin{itemize}
+		\item 套利机会意味着我们在期初无任何投资额的情况下，有机会从市场中获利。
+		\item 可以想象成获得了一张免费的彩票，有一定的概率会中奖(虽然概率极低)
+		，但即使未中奖也没有任何的损失。
+	\end{itemize}
+ \end{block}
+\end{frame}
+
+\begin{frame}{套利的概念(cont.)}
+若将套利的条件$$V(0)=0,\qquad V(N)\ge 0,\qquad \Pr[V(N)>0]>0 $$
+替换成：
+\[V(0)=0,\qquad V(N)\le 0,\qquad \Pr[V(N)<0]>0 \]
+则可以通过反向策略进行套利。
+\end{frame}
+
+\begin{frame}{定理1}
+对于一个无套利的金融市场，若有一个自融资策略，使得期初的资产组合价值$V(0)$，在未来任意时刻$t$的资产组合价值为$V(t)$，则下式成立：
+\[V(t)=V(0)(1+r)^t \]
+其中：$r$是无风险利率(risk-free rate)。
+
+\begin{block}{含义}
+在无套利的假设下，如果找到了某个自融资策略可以完全防范市场的风险，则这个策略应当使得我们期初的投资额，以无风险利率$r$的增长速度累积。
+\end{block}
+
+\end{frame}
+
+\begin{frame}{定理2}
+假设股票资产未来时刻1的价格可能会上涨到原来的$u$倍，或下跌到原来的$d$倍($u>d$)。金融市场无套利机会的充要条件是
+\[d<(1+r)<u \]
+
+\begin{block}{}\centering
+\begin{tikzpicture}[>=stealth, thick]
+\node (A) at (0,0) {$S$};
+\node (B) at (2.5,1) {$u\cdot S$};
+\node (C) at (2.5,-1) {$d\cdot S$};
+\draw [->](A)--(B); \draw [->](A)--(C);
+\node at (1.5, -2) {(a)股票资产价值};
+\end{tikzpicture}\qquad 
+\begin{tikzpicture}[>=stealth, thick]
+\node (A1) at (0,0) {$S$};
+\node (B1) at (2.5,1) {$S(1+r)$};
+\node (C1) at (2.5,-1) {$S(1+r)$};
+\draw [->](A1)--(B1); \draw [->](A1)--(C1);
+\node at (1.5, -2){(b)银行存款价值};
+\end{tikzpicture}
+\end{block}
+
+\end{frame}
+
+\section{市场的完备性和状态价格}
+\subsection{市场的完备性}
+
+\begin{frame}{回顾相关符号标记}
+记列向量${\bf h}(0)$反映了期初资产组合当中各证券的头寸数量；记列向量${\bf S}(0)$表示期初这些证券的价格，即：
+\[ {\bf h}(0)=\begin{bmatrix}
+h_1(0)\\
+h_2(0)\\
+\vdots\\
+h_M(0)\\
+\end{bmatrix}_{M\times 1}\qquad {\bf S}(0)=\begin{bmatrix}
+S_1(0)\\
+S_2(0)\\
+\vdots\\
+S_M(0)\\
+\end{bmatrix}_{M\times 1}   \]
+对${\bf h}$与${\bf S}$取内积，可得到期初资产组合的价值，即：
+\[V(0)={\bf h}(0)\cdot {\bf S}(0)=\sum^M_{i=1}h_i(0) S_i(0) \]
+\end{frame}
+
+\begin{frame}{回报矩阵${\bf X}$}
+由于未来资产价格的不确定性，假设在未来一年后这$M$个证券均有相应的回报(payoff)，并且所有的回报均有$K$种可能的状态(state)。可将这些可能的回报以矩阵${\bf X}$来表示，即：
+\[{\bf X}=\begin{bmatrix}
+x(1,1) & x(1,2)& \cdots & x(1,K)\\
+x(2,1) & x(2,2)& \cdots & x(2,K)\\
+\vdots & \vdots&\ddots&\vdots\\
+x(M,1) & x(M,2)& \cdots & x(M,K)\\
+\end{bmatrix}_{M\times K} \]
+其中：$x(i,j)$表示证券$i$在未来一年后第$j$个状态下的回报数额。
+
+矩阵${\bf X}$的每一行分别代表一个证券在各状态下的回报数额；矩阵${\bf X}$的各列则代表所有证券在某个状态下各自的回报数额。
+\end{frame}
+
+\begin{frame}{未来各状态下资产组合的回报总额${\bf q}(1)$}
+将${\bf h}(0)$与${\bf X}$的每一列分别做内积运算，得到的就是未来各状态下资产组合的回报总额${\bf q}(1)$，即：
+\[\begin{split}
+	{\bf h}'(0){\bf X}&=\begin{bmatrix}
+	h_1(0)&
+	h_2(0)&
+	\cdots&
+	h_M(0)
+	\end{bmatrix}\begin{bmatrix}
+	x(1,1) & x(1,2)& \cdots & x(1,K)\\
+	x(2,1) & x(2,2)& \cdots & x(2,K)\\
+	\vdots & \vdots&\ddots&\vdots\\
+	x(M,1) & x(M,2)& \cdots & x(M,K)\\
+	\end{bmatrix}\\
+	&=\begin{bmatrix}
+	q_1(1)&
+	q_2(1)&
+	\cdots&
+	q_K(1)
+	\end{bmatrix}={\bf q}(1) 
+	\end{split} \]
+其中：$q_j(1)=\sum^M_{i=1}x(i,j)h_i(0) ,\quad j=1,2,\ldots,K $
+\end{frame}
+
+
+
+\begin{frame}{例；两状态市场}
+	假设金融市场有两个证券以及两个状态，相应的回报矩阵如下：
+\[{\bf X}=\begin{bmatrix}
+1.1&1.1\\
+0&1
+\end{bmatrix} \]
+假设两个证券当前时刻的价格分别为1.09和1。
+
+问：该市场是否存在套利机会？
+\end{frame}
+
+\begin{frame}{解答}
+	建立一个资产组合，其中包含的两个证券的份额分别为$h_1$和$h_2$，因此：
+\[{\bf h}(0)=\begin{bmatrix}
+h_1\\h_2
+\end{bmatrix},\qquad {\bf S}(0)=\begin{bmatrix}
+1.09\\1
+\end{bmatrix}  \]
+从而：
+\[{\bf X}'{\bf h}(0)=\begin{bmatrix}
+1.1h_1\\ 1.1h_1+h_2
+\end{bmatrix},\qquad V(0)={\bf S}(0)\cdot {\bf h}(0)={\bf h}'(0)\cdot {\bf S}(0)=1.09h_1+h_2  \]
+因此，当前时刻资产组合的价值为$(1.09h_1+h_2)$；未来时刻资产组合的价值可能为$1.1h_1$或$(1.1h_1+h_2)$。
+\end{frame}
+
+
+
+\begin{frame}{解答(cont.)}
+	注意到，$h_1>0$并且$h_2<0$时，有可能会出现如下情形：
+\[1.09h_1+h_2<0,\qquad \begin{cases}
+1.1h_1> 0\\
+1.1h_1+h_2\ge 0
+\end{cases}\]
+此时资产组合存在套利机会，且套利的条件是：$$-1.1h_1<h_2<-1.09h_1,\qquad  h_1>0$$
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{回报矩阵${\bf X}$的秩}
+根据线性代数的知识，回报矩阵${\bf X}$的秩(rank)取值如下：
+\[{\rm rank}({\bf X})\le \min(M,K) \]
+
+当$M>K$时，意味着证券的数量大于可能的状态数量，此时必然有某些证券的行向量(回报向量)可以被其他证券的回报向量线性表示。这样的回报向量可被线性表示的证券称为冗余证券(redundant securities)，对应的${\rm rank}({\bf X})\le K$。
+
+所谓的冗余证券意味着它们可以通过市场上的其他证券复制出来。此时的市场是完备的(complete market)。
+
+特别地：如果${\rm rank}({\bf X})= K$，则意味着矩阵$\bf X$是列满秩的，此时市场上有$(M-K)$个证券是冗余证券。
+\end{frame}
+
+
+\begin{frame}{阿罗-德布鲁证券}
+在此基础上有一个典型的向量空间基底，称之为阿罗-德布鲁证券(Arrow-Debreu securities)，也称状态或有权益(state contingent claims)。其回报矩阵如下：
+\[ {\bf I}_K=\begin{bmatrix}
+1\\
+&\ddots\\
+&&1
+\end{bmatrix}_{K\times K}\]
+
+\begin{block}{含义}
+	阿罗-德布鲁证券的回报矩阵是一个$K$阶单位阵。这意味着该证券仅在未来的某一个特定状态下回报为1，其余状态下回报均为零。并且阿罗-德布鲁证券之间是线性无关的。
+\end{block}
+\end{frame}
+
+\begin{frame}{回报矩阵${\bf X}$的秩(cont.)}
+当$M<K$时，意味着证券的数量小于可能的状态数量。若${\rm rank}({\bf X})= M$，则矩阵$\bf X$是行满秩的，此时有$(K-M)$个状态无法被现有的证券所覆盖(spanned)，此时的市场是不完备的。需要在原先的基础之上，再补充$(K-M)$个线性无关的衍生产品，这样才能满足市场的完备性。
+
+$\bf X$行满秩也说明了这些已有的$M$个证券之间是线性无关的，因此市场无套利的机会。
+
+\begin{block}{}
+特别地，当矩阵$\bf X$是方阵($M=K$)且满秩(full rank)时，此时市场完备且无套利机会。
+\end{block}
+\end{frame}
+
+\subsection{状态价格}
+\begin{frame}{状态价格}
+列向量${\bf s}$中的所有取值$s_1, s_2, \ldots, s_K$均严格为正，并且满足
+\begin{equation*}
+{\bf S}(0)={\bf X}{\bf s} 
+\end{equation*}
+则称${\bf s}$是状态价格向量(state price vector)。     
+
+将上式展开，可得：
+\begin{equation*}
+\begin{bmatrix}
+S_1(0)\\
+S_2(0)\\
+\vdots\\
+S_M(0)\\
+\end{bmatrix}_{M\times 1}  =\begin{bmatrix}
+x(1,1) & x(1,2)& \cdots & x(1,K)\\
+x(2,1) & x(2,2)& \cdots & x(2,K)\\
+\vdots & \vdots&\ddots&\vdots\\
+x(M,1) & x(M,2)& \cdots & x(M,K)\\
+\end{bmatrix}_{M\times K} \begin{bmatrix}
+s_1\\
+s_2\\
+\vdots\\
+s_K\\
+\end{bmatrix}_{K\times 1} 
+\end{equation*}
+状态价格$s_i$相当于一个权重，使得当前资产的价格等于未来所有可能回报的{\color{red}加权之和}。
+\end{frame}
+
+\begin{frame}{状态价格(cont.)}
+\begin{block}{定理}
+对于Arrow-Debreu 证券而言，其价格就是状态价格。
+\end{block}
+
+
+状态价格可以看作是组成市场中任何证券的基本工具。根据证券各状态下的回报数额，可以构造出对应的Arrow-Debreu证券的线性组合，由此可相应得到该证券的当前价格。
+\end{frame}
+
+\begin{frame}{银行账户：证券1}
+由于证券1是银行账户，因此其未来时刻的回报数额是定值$(1+r)$，因此：
+\[x(1,i)=1+r, \qquad i=1,2,\ldots,K \]
+代入${\bf S}(0)={\bf X}{\bf s} $，可得：
+\[1=(1+r)\Big[s_1+s_2+\cdots+s_K \Big] \]
+因此：
+\[s_1+s_2+\cdots+s_K=\sum_{i=1}^K s_i=\frac{1}{1+r}\]
+
+\end{frame}
+
+\begin{frame}{“概率”}
+记$\pi_i$满足下式：
+\[\pi_i=\frac{s_i}{\sum_{i=1}^K s_i}=(1+r) s_i\quad \Rightarrow\quad s_i=\frac{\pi_i}{1+r},\quad i=1,2,\ldots,K \]
+由于$s_i>0$，并且$\sum_i\pi_i\equiv 1$，因此$\pi_i$所扮演的角色类似于一个概率。于是我们记$\pi_i$组成的列向量为$\bm{\pi}$，其满足：
+\begin{equation*}
+{\bf S}(0)={\bf X}{\bf s}=\frac{1}{1+r}{\bf X}\bm{\pi}={\bf X}^*\bm{\pi}
+\end{equation*}
+即：
+\begin{equation*}
+\begin{bmatrix}
+S_1(0)\\
+S_2(0)\\
+\vdots\\
+S_M(0)\\
+\end{bmatrix}= \begin{bmatrix}
+\frac{x(1,1)}{1+r} & \frac{x(1,2)}{1+r}& \cdots & \frac{x(1,K)}{1+r}\\
+\frac{x(2,1)}{1+r} & \frac{x(2,2)}{1+r}& \cdots & \frac{x(2,K)}{1+r}\\
+\vdots & \vdots&\ddots&\vdots\\
+\frac{x(M,1)}{1+r} & \frac{x(M,2)}{1+r}& \cdots & \frac{x(M,K)}{1+r}\\
+\end{bmatrix}
+  \begin{bmatrix}
+\pi_1\\
+\pi_2\\
+\vdots\\
+\pi_K\\
+\end{bmatrix}
+\end{equation*}
+\end{frame}
+
+\begin{frame}{概率测度$\mathbb{Q}$}
+\begin{equation*}
+{\bf S}(0)={\bf X}{\bf s}={\bf X}^*\bm{\pi}
+\end{equation*}
+当前时刻资产的价格，等于未来时刻可能回报数额贴现值的期望，其中期望计算中使用的概率为$\pi_i$，即：
+\begin{equation*}
+S_i(0) = \sum^K_{j=1}\pi_i\left( \frac{x(i,j)}{1+r}\right) =\frac{1}{1+r}\sum^K_{j=1}\pi_ix(i,j)=\frac{1}{{1+r}}\E^*[x(i)]
+\end{equation*}
+其中：$\E^*[\;\cdot\;]$表示以$\bm{\pi}$为概率分布的期望值。
+
+此处的$\bm{\pi}$是构造出的“概率分布”，并非实际市场中各状态下对应的概率。此处的概率就是所谓的风险中性概率(risk neutral probability)，相应的概率测度通常记作$\mathbb{Q}$。
+\end{frame}
+
+\begin{frame}{概率测度$\mathbb{Q}$和$\mathbb{P}$}
+风险中性概率测度记作$\mathbb{Q}$，以与实际市场上资产价格变动的概率测度$\mathbb{P}$相区分。
+
+之所以称之为“风险中性”概率，是因为在这个概率测度之下，有风险资产的未来价格期望值的贴现均等于其当前时刻的价格，不受资产风险大小的影响。
+\end{frame}
+
+
+\section{风险中性和测度变换}
+\begin{frame}{等价测度}
+风险中性概率测度$\mathbb{Q}$和实际概率测度$\mathbb{P}$是等价(equivalent)的，记作$\mathbb{P}\sim \mathbb{Q}$。这意味着在$K$个状态$\{\omega_1,\omega_2,\ldots,\omega_K\}$中，以下关系一定成立：
+\begin{equation*}
+\begin{cases}
+\mathbb{P}(\omega_i) >0 \quad  \Longleftrightarrow \quad\mathbb{Q}(\omega_i) >0 \\
+\mathbb{P}(\omega_i) =0  \quad\Longleftrightarrow \quad\mathbb{Q}(\omega_i) =0 \\
+\end{cases}
+,\qquad i=1,2,\ldots,K
+\end{equation*}
+
+我们取对应状态下的两个概率之比，并记作$L(\omega)$，因此：
+\begin{equation*}
+L(\omega)=\frac{\mathbb{Q}(\omega)}{\mathbb{P}(\omega)}
+\end{equation*}
+\end{frame}
+
+\begin{frame}{$L(\omega)$的期望值}
+将测度$\mathbb{Q}$和$\mathbb{P}$下的期望值分别记作$\E^{\mathbb{Q}}$和$\E^{\mathbb{P}}$，于是有：
+\begin{equation*}
+\E^{\mathbb{P}} [L(\omega)]=\sum^K_{i=1} \mathbb{P}(\omega_i) {\color{blue}L(\omega_i)}=\sum^K_{i=1} \mathbb{P}(\omega_i) {\color{blue}\frac{\mathbb{Q}(\omega_i)}{\mathbb{P}(\omega_i)}}=\sum^K_{i=1}\mathbb{Q}(\omega_i)\equiv 1
+\end{equation*}
+由此可见：随机变量$L(\omega)$在{\color{red}测度$\mathbb{P}$下}的期望值为1。
+\end{frame}
+
+
+\subsection{拉东-尼柯迪姆导数}
+\begin{frame}{由离散状态空间过渡到连续状态空间}
+在连续情形中，$\mathbb{P}(\omega)$和$\mathbb{Q}(\omega)$已经没有意义，因为它们的取值通常为零。
+
+采用微分方式重新表述如下：
+\begin{equation*}
+{\color{gray}L(\omega)=\frac{\mathbb{Q}(\omega)}{\mathbb{P}(\omega)}}\quad \Rightarrow \quad {\color{red}L(t)=\frac{\dif\mathbb{Q}}{\dif \mathbb{P}}}
+\end{equation*}
+
+这里的$L(t)$称作拉东-尼柯迪姆导数(Radon-Nikodym derivative)，它是一个新的随机过程。通过它可以进行概率测度之间的转换。
+\end{frame}
+
+\begin{frame}{相关学者}
+\begin{center}
+\begin{tabular}{ccc}
+	\includegraphics[height=.45\textheight]{fig/radon.jpeg}&\includegraphics[height=.45\textheight]{fig/nikodym.jpeg} &\includegraphics[height=.45\textheight]{fig/girsanov.jpg}
+	\\
+   约翰·拉东 & 奥顿·尼柯迪姆 & 伊戈尔·哥萨诺夫\\
+\end{tabular}
+\end{center}
+\end{frame}
+
+\begin{frame}{举例：布朗运动的测度转换}
+对于测度$\mathbb{P}$下的标准布朗运动$W(t)$，其对应的矩母函数为：
+\begin{equation*}
+\E^{\mathbb{P}} \left(e^{\theta W(t)} \right)=\exp\left[\frac{1}{2}\theta^2 t\right] 
+\end{equation*}
+假设拉东-尼柯迪姆导数如下：
+\[\frac{\dif \mathbb{Q}}{\dif \mathbb{P}}=\exp\left( {-\gamma W(t)-\frac{1}{2}\gamma^{2} t }\right) >0 \]
+以此为基础，计算在测度$\mathbb{Q}$下的$W(t)$对应的矩母函数
+\end{frame}
+
+\begin{frame}{测度$\mathbb{Q}$下的$W(t)$对应的矩母函数}
+计算过程
+\begin{equation*}
+\begin{split}
+\E^{\mathbb{Q}} \left(e^{\theta W(t)} \right)&=\E^{\mathbb{P}} \left(\frac{\dif\mathbb{Q}}{\dif \mathbb{P}}e^{\theta W(t)} \right)=\E^{\mathbb{P}}\left[\exp\left(  {-\gamma W(t)-\frac{1}{2}\gamma^{2} t }+\theta W(t)\right)  \right]\\
+&=\exp\left(-\frac{1}{2}\gamma^{2} t \right) \E^{\mathbb{P}}\left(e^{(\theta-\gamma)W(t)}\right) \\
+&=\exp\left(-\frac{1}{2}\gamma^{2} t \right)\exp\left(\frac{1}{2}(\theta-\gamma)^{2} t \right) =\exp\left(\frac{1}{2}\theta^{2} t-\gamma t\theta \right) 
+\end{split}
+\end{equation*}
+由此可得：
+\[\E^{\mathbb{Q}} [W(t)]=-\gamma t,\qquad \Var^{\mathbb{Q}} [W(t)] =t\]
+因此在测度$\mathbb{Q}$下，$W(t)\sim N(-\gamma t,t)$
+\end{frame}
+
+\begin{frame}{两个测度的比较}
+\begin{itemize}
+\item 在测度$\mathbb{P}$下，$W(t)\sim N(0,t)$
+\item
+在测度$\mathbb{Q}$下，$W(t)\sim N(-\gamma t,t)$
+\end{itemize}
+
+令$\widetilde{W}(t)=\gamma t+W(t)$，则在测度$\mathbb{Q}$下：
+\[\widetilde{W}(t)\sim N(0,t) \]
+可见，在测度$\mathbb{P}$下$W(t)$是标准布朗运动；而在测度$\mathbb{Q}$下，则是$\widetilde{W}(t)$成为了标准布朗运动。原先测度$\mathbb{P}$下的标准布朗运动，在经过测度变换后，多了一个漂移项$(-\gamma t)$，但是方差$t$未发生改变。
+
+{\color{blue}由此引入测度变换的重要定理——哥萨诺夫定理(Girsanov theorem)}
+\end{frame}
+
+\subsection{哥萨诺夫定理}
+
+\begin{frame}{哥萨诺夫定理}\normalsize
+对于测度$\mathbb{P}$下的布朗运动$W(t)$，假如有一个过程$\gamma(t)$满足以下Novikov条件
+\[\E^{\mathbb{P}}\left[\exp\left(\frac{1}{2}\int^T_0 \gamma^2(t)\dif t\right)\right]<\infty \]
+则存在一个与$\mathbb{P}$等 价的测度$\mathbb{Q}$，使得$\widetilde{W}(t)$是测度$\mathbb{Q}$下的布朗运动，并且
+\begin{equation*}
+\widetilde{W}(t)=W(t)+\int^t_0 \gamma(s)\dif s
+\end{equation*}
+联系两个测度的拉东-尼柯迪姆导数的表达式如下：
+\begin{equation*}
+L(t)=\frac{\dif \mathbb{Q}}{\dif \mathbb{P}}=\exp\left(-\int^t_0 \gamma(s)\dif W(s) -\frac{1}{2} \int^t_0\gamma^2(s)\dif s\right)
+\end{equation*}
+\end{frame}
+
+\begin{frame}{拉东-尼柯迪姆导数$L(t)$的性质}
+记$X(t)=-\int^t_0 \gamma(s)\dif W(s) -\frac{1}{2} \int^t_0\gamma^2(s)\dif s$，于是：
+\[\dif X(t)=-\gamma(t)\dif W(t)-\frac{1}{2}\gamma^2(t)\dif t \]
+根据伊藤引理，我们可得：
+\begin{equation*}
+\begin{split}
+\dif L(t)&=L_X\dif X+\frac{1}{2}L_{XX}(\dif X)^2\\
+&=L(t)\left[-\gamma(t)\dif W(t)-\frac{1}{2}\gamma^2(t)\dif t\right]+\frac{1}{2}L(t) \gamma^2(t)\dif t\\
+&=-L(t)\gamma(t)\dif W(t)
+\end{split}
+\end{equation*}
+由此可见，拉东-尼柯迪姆导数$L(t)$的微分表达式中{\color{red}没有漂移项}，因此$L(t)$是{\color{red}测度$\mathbb{P}$下的鞅}。
+\end{frame}
+
+\begin{frame}{$L(t)\widetilde{W}(t)$的性质}
+由于$\dif\widetilde{W}(t)=\dif W(t)+\gamma(t)\dif t$，
+利用伊藤乘法法则可得：
+\begin{equation*}
+\begin{split}
+\dif\left( L(t)\widetilde{W}(t)\right)&=L(t)\dif \widetilde{W}(t) +\widetilde{W}(t) \dif L(t) +\dif L(t)\dif \widetilde{W}(t)\\
+&=L(t)\Big(\dif W(t)+\gamma(t)\dif t \Big) +\widetilde{W}(t)\Big(-L(t)\gamma(t)\dif W(t) \Big) \\
+&\qquad +\Big(-L(t)\gamma(t)\dif W(t) \Big) \Big(\dif W(t)+\gamma(t)\dif t \Big)\\
+&=L(t)\dif W(t)+L(t)\gamma(t)\dif t-L(t)\widetilde{W}(t)\gamma(t)\dif W(t)-L(t)\gamma(t)\dif t\\
+&=\left[1-\widetilde{W}(t)\gamma(t)\right]L(t)\dif W(t)
+\end{split}
+\end{equation*}
+由此可见，$L(t)\widetilde{W}(t)${\color{red}在测度$\mathbb{P}$下是鞅}。
+\end{frame}
+
+\subsection{哥萨诺夫定理在金融中的应用}
+\begin{frame}{哥萨诺夫定理在金融中的应用}
+通过哥萨诺夫定理，我们可以将测度$\mathbb{P}$下不是鞅的过程，通过转换测度的方式，最终实现在测度$\mathbb{Q}$下是鞅的结果。这一点对于金融工程当中衍生品的定价至关重要。
+\begin{block}{核心思想}
+\[\text{风险中性}\quad \Longleftrightarrow \quad\text{无套利} \]
+\end{block}
+
+\end{frame}
+
+\begin{frame}{举例：几何布朗运动}
+几何布朗运动
+$\dif S(t)=\mu {S(t)}\dif t+\sigma {S(t)}\dif W(t)$在初值为$S(0)$情形下的解为：
+\[S(t)=S(0)\exp\left[\left(\mu-\frac{1}{2}\sigma^2 \right)t+\sigma W(t)  \right] \]
+考虑$S(t)$的贴现过程$Z(t)$，即：
+\[Z(t)=\frac{S(t)}{B(t)}=\frac{S(t)}{e^{rt}}=Z(0)\exp\left[\left(\mu-r-\frac{1}{2}\sigma^2 \right)t+\sigma W(t)  \right]  \]
+根据伊藤引理可得：
+\[\dif Z(t)=(\mu-r)Z(t)\dif t+\sigma Z(t)\dif W(t)
+\]
+此处的$W(t)$是测度$\mathbb{P}$下的标准布朗运动。
+\end{frame}
+
+\begin{frame}{举例：几何布朗运动(cont.)}
+令$\gamma(t)=(\mu-r)/\sigma$，于是就有$\widetilde{W}(t)$在测度$\mathbb{Q}$下是一个布朗运动，并且
+\begin{equation*}
+\dif \widetilde{W}(t)=\dif W(t)+\gamma(t)\dif t=\dif W(t)+\frac{\mu-r}{\sigma}\dif t
+\end{equation*}
+
+将上式代入$\dif S(t)=\mu {S(t)}\dif t+\sigma {S(t)}\dif W(t)$中，可得：
+\begin{equation*}
+\begin{split}
+\frac{\dif S(t)}{S(t)}&=\mu \dif t+\sigma \left(\dif \widetilde{W}(t)-\frac{\mu-r}{\sigma}\dif t \right) \\
+&=r\dif t+\sigma\dif \widetilde{W}(t)
+\end{split}
+\end{equation*}
+由此可见：在风险中性测度$\mathbb{Q}$下，股票价格的变动服从{\color{red}漂移率为无风险利率}的几何布朗运动。
+\end{frame}
+
+\begin{frame}{举例：几何布朗运动(cont.)}
+进一步考虑资产价格的贴现过程$e^{-rt}S(t)$，可得：
+\begin{equation*}
+\begin{split}
+\dif\left( e^{-rt}S(t)\right) &=e^{-rt}\dif S(t)-e^{-rt}S(t)r\dif t\\
+&=e^{-rt}\left(rS(t)\dif t+\sigma S(t)\dif \widetilde{W}(t) -S(t)r\dif t\right) \\
+&=e^{-rt} \sigma S(t)\dif \widetilde{W}(t)
+\end{split}
+\end{equation*}
+由此可见：{\color{red}在风险中性测度$\mathbb{Q}$下，资产价格的贴现过程是鞅}。
+
+\begin{block}{意义}
+风险中性测度$\mathbb{Q}$下，资产价格的贴现过程是鞅，此时{\color{red}无套利}。这意味着可以在该测度下进行金融产品的定价。
+\end{block}
+\end{frame}
+
+
+
+
+\begin{frame}{测度变换举例：布莱克-斯科尔斯模型}
+	在布莱克-斯科尔斯模型中假定股票价格的变动服从几何布朗运动，即：
+\begin{equation*}
+\frac{\dif S(t)}{S(t)}=\mu \dif t+\sigma \dif W(t)
+\end{equation*}
+根据伊藤引理可得：
+\[\dif \ln S(t)=\left( \mu-\frac{1}{2}\sigma^2\right) \dif t+ \sigma \dif W(u) \]
+因此：
+\[S(t)=S(0)\exp\left[\left(\mu-\frac{1}{2}\sigma^2 \right)t+\sigma W(t)  \right] \]
+考虑$S(t)$的贴现过程$Z(t)$，即：
+\[Z(t)=\frac{S(t)}{B(t)}=\frac{S(t)}{{\rm e}^{rt}}=Z(0)\exp\left[\left(\mu-r-\frac{1}{2}\sigma^2 \right)t+\sigma W(t)  \right]  \]
+\end{frame}
+
+\begin{frame}{测度变换举例(cont.)}\small
+	根据伊藤引理可得：
+	\[\begin{split}
+	\dif Z(t)&=(\mu-r)Z(t)\dif t+\sigma Z(t)\dif W(t)\\
+	\frac{\dif Z(t)}{Z(t)}&=(\mu-r)\dif t+\sigma \dif W(t)
+	\end{split} \]
+	此处的$W(t)$是测度$\mathbb{P}$下的标准布朗运动。
+	令$\gamma(t)=(\mu-r)/\sigma$，于是就有$\widetilde{W}(t)$在测度$\mathbb{Q}$下是标准布朗运动，并且
+	\begin{equation*}
+	\dif \widetilde{W}(t)=\gamma(t)\dif t+\dif W(t)=\left( \frac{\mu-r}{\sigma}\right) \dif t+\dif W(t)
+	\end{equation*}	
+	从而可得：
+\begin{equation*}
+\begin{split}
+\frac{\dif S(t)}{S(t)}&=\mu \dif t+\sigma \left[\dif \widetilde{W}(t)-\frac{\mu-r}{\sigma}\dif t \right] \\
+&=r\dif t+\sigma\dif \widetilde{W}(t)
+\end{split}
+\end{equation*}
+\end{frame}
+
+
+
+\begin{frame}{测度变换举例(cont.)}
+\[\frac{\dif S(t)}{S(t)}=r\dif t+\sigma\dif \widetilde{W}(t)\]	
+在风险中性测度$\mathbb{Q}$下，股票价格的变动服从漂移率为无风险利率的几何布朗运动。
+
+$\gamma(t)=\dfrac{\mu-r}{\sigma}$反映的是单位风险的超额收益率，也称作风险的市场价格（market price of risk）。
+
+考虑资产价格的贴现过程$Z(t)={\rm e}^{-rt}S(t)$，同样可得：
+\begin{equation*}
+\begin{split}
+\dif Z(t)&=\dif\left[ {\rm e}^{-rt}S(t)\right] ={\rm e}^{-rt}\dif S(t)-{\rm e}^{-rt}S(t)r\dif t\\
+&={\rm e}^{-rt}\left[rS(t)\dif t+\sigma S(t)\dif \widetilde{W}(t) -S(t)r\dif t\right] \\
+&={\rm e}^{-rt} \sigma S(t)\dif \widetilde{W}(t)
+\end{split}
+\end{equation*}
+\end{frame}
+
+
+
+\begin{frame}{测度变换举例(cont.)}
+	\[\dif Z(t)={\rm e}^{-rt} \sigma S(t)\dif \widetilde{W}(t)\]
+	
+	在风险中性测度下，资产价格的贴现过程$Z(t)$ 只受标准布朗运动$\widetilde{W}(t)$ 的影响。由于标准布朗运动是鞅。因此在风险中性测度$\mathbb{Q}$ 下，资产价格的贴现过程也是鞅。
+	
+	正因如此，风险中性测度$\mathbb{Q}$ 也称作等价鞅测度（equivalent martingale measure, EMM）。
+
+\end{frame}
+
+
+\subsection{风险中性定价法的拓展}
+\begin{frame}{计价单位}
+风险中性定价方法与无套利的等价关系，由哈里森和克雷普斯（Harrison and  Kreps，1979）以及哈里森和普利斯卡（Harrison and Pliska，1983）两篇论文给出了严格证明。
+
+实际上，风险中性定价法可看作计价单位（numeraire）方法的一个应用，所谓的计价单位
+是由格曼、卡鲁伊和罗切特（Geman，El Karoui and Rochet，1995）提出的理论方法。该方法通过选取合适的计价单位，可以大大简化某些复杂的金融衍生品定价问题。
+\end{frame}
+
+
+\begin{frame}{价格贴现过程与计价单位}
+	以风险中性定价方法中采用的资产价格贴现过程$Z(t)={\rm e}^{-rt}S(t)$为例，它可以看作资产价格$S(t)$与一单位无风险债券价格$B(t)={\rm e}^{rt}$两者的相对价格，即：
+\[Z(t)={\rm e}^{-rt}S(t)=\frac{S(t)}{B(t)} \]
+在这里，称$B(t)$是$S(t)$的计价单位。也就是说，资产价格以无风险债券为计价单位时，其相对价格$S(t)/B(t)$演化的随机过程是鞅，即：
+\[
+\frac{S(t)}{B(t)}=\EQ\left[\left.\frac{S(T)}{B(T)}\right|\mathcal{F}(t)\right],\qquad t\le T
+\]
+于是下式成立：
+\[S(t)=\frac{B(t)}{B(T)}\EQ\Big[S(T)\Big|\mathcal{F}(t)\Big]={\rm e}^{-r(T-t)}\EQ\Big[S(T)\Big|\mathcal{F}(t)\Big]\]
+\end{frame}
+
+
+\begin{frame}{价格贴现过程与计价单位}
+	\[S(t)=\frac{B(t)}{B(T)}\EQ\Big[S(T)\Big|\mathcal{F}(t)\Big]={\rm e}^{-r(T-t)}\EQ\Big[S(T)\Big|\mathcal{F}(t)\Big]\]
+
+	在利率随机时，使用上式是很难对风险中性测度下的期望值进行求解的，因为此时包含了$S(t)$和$r(t)$两个随机过程。
+因此，我们必须寻找更合适的计价单位，以简化定价问题的求解。
+
+计价单位的选取在利率衍生品和汇率衍生品的定价问题中具有非常广泛的应用。
+\end{frame}
+
+
+
+
+\end{document}
